@@ -22,6 +22,48 @@ else
 	echo "${CONFLINE} already exists in the local.conf file"
 fi
 
+# place rm_work into conf file
+RMWORK="INHERIT += \"rm_work\""
+
+cat conf/local.conf | grep "${RMWORK}" > /dev/null
+local_conf_rm=$?
+
+if [ $local_conf_rm -ne 0 ];then
+	echo "Append ${RMWORK} in the local.conf file"
+	echo ${RMWORK} >> conf/local.conf
+	
+else
+	echo "${RMWORK} already exists in the local.conf file"
+fi
+
+# exclude aesd-assignment from rm work
+RM_EXCLUDE="RM_WORK_EXCLUDE += \"aesd-assignments\""
+
+cat conf/local.conf | grep "${RM_EXCLUDE}" > /dev/null
+local_conf_exclude=$?
+
+if [ $local_conf_exclude -ne 0 ];then
+	echo "Append ${RM_EXCLUDE} in the local.conf file"
+	echo ${RM_EXCLUDE} >> conf/local.conf
+	
+else
+	echo "${RM_EXCLUDE} already exists in the local.conf file"
+fi
+
+# # exclude aesd-assignment from rm work
+# RM_EXCLUDE="RM_WORK_EXCLUDE += \"scull\""
+
+# cat conf/local.conf | grep "${RM_EXCLUDE}" > /dev/null
+# local_conf_exclude=$?
+
+# if [ $local_conf_exclude -ne 0 ];then
+# 	echo "Append ${RM_EXCLUDE} in the local.conf file"
+# 	echo ${RM_EXCLUDE} >> conf/local.conf
+	
+# else
+# 	echo "${RM_EXCLUDE} already exists in the local.conf file"
+# fi
+
 
 bitbake-layers show-layers | grep "meta-aesd" > /dev/null
 layer_info=$?
