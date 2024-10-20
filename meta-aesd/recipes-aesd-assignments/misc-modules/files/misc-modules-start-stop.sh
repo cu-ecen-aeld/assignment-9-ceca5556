@@ -4,16 +4,20 @@
 
 case "$1" in
   start)
-    echo "loading scull"
+    echo "loading misc-module"
     # scull_load
     module_load faulty
-    # modprobe hello
+
+    # yocto qemu instance uname -r is differne t than .bb file uname -r
+    cp /lib/modules/aesd-mods/hello.ko /lib/modules/$(uname -r) # modprobe -S not working? workaround ->copy hello to modprobe directory
+    depmod -A
+    modprobe hello
     ;;
   stop)
-    echo "unloading scull"
+    echo "unloading misc-module"
     # scull_unload
     module_unload faulty
-    # rmmod hello
+    rmmod hello
     ;;
   *)
     echo "Usage: $0 {start|stop}"
