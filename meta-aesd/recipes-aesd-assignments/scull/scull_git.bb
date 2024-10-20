@@ -16,6 +16,10 @@ inherit module
 SRC_URI = "git://git@github.com/cu-ecen-aeld/assignment-7-ceca5556.git;protocol=ssh;branch=master \
            file://0001-makefile-only-builds-scull-and-misc-modules.patch \
            file://scull-start-stop.sh \
+           file://0001-attempting-to-use-modprobe-isntead-of-insmod.patch \
+           file://0002-added-include-files-to-scull-directory-directly.patch \
+           file://0001-updated-path-for-module-location-for-insmod-command.patch \
+           file://0001-module-path-update-for-insmod-command.patch \
            "
 
 # Modify these as desired
@@ -28,10 +32,7 @@ S = "${WORKDIR}/git"
 #FILES:${PN} += "${bindir}/scull_unload"
 FILES:${PN} += "${bindir}/"
 FILES:${PN} += "${sysconfdir}/"
-
-LDDINC = "${S}/include"
-EXTRA_CFLAGS += "-I${LDDINC}"
-TARGET_CFLAGS += "${EXTRA_CFLAGS}"
+#FILES:${PN} += "${base_libdir}/"
 
 MODULES_INSTALL_TARGET = "install"
 EXTRA_OEMAKE += "KERNELDIR=${STAGING_KERNEL_DIR}"
@@ -60,10 +61,12 @@ do_install () {
 	# See example at https://github.com/cu-ecen-aeld/ecen5013-yocto/blob/ecen5013-hello-world/meta-ecen5013/recipes-ecen5013/ecen5013-hello-world/ecen5013-hello-world_git.bb
 
 	install -d ${D}${bindir}/
-	install -m 0755 ${S}/scull/* ${D}${bindir}/
-	#install -m 0755 ${S}/scull/scull_load ${D}${bindir}/scull
-	#install -m 0755 ${S}/scull/scull_unload ${D}${bindir}/
-	#install -m 0755 ${WORKDIR}/scull-start-stop.sh ${D}${bindir}/
+	#install -m 0755 ${S}/scull/* ${D}${bindir}/
+	install -m 0755 ${S}/scull/scull_load ${D}${bindir}/
+	install -m 0755 ${S}/scull/scull_unload ${D}${bindir}/
+
+	install -d ${D}${base_libdir}/modules/aesd-mods/
+	install -m 0755 ${S}/scull/scull.ko ${D}${base_libdir}/modules/aesd-mods/
 
 	install -d ${D}${sysconfdir}/init.d
 	install -m 0755 ${WORKDIR}/scull-start-stop.sh ${D}${sysconfdir}/init.d
