@@ -1,0 +1,22 @@
+From 562beffa3f1496043a780a28e057b543dac3506c Mon Sep 17 00:00:00 2001
+From: ceca5556 <ceca5556@colorado.edu>
+Date: Sat, 19 Oct 2024 16:17:15 -0600
+Subject: [PATCH] updated path for module location for insmod command
+
+---
+ scull/scull_load | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scull/scull_load b/scull/scull_load
+index 424e9ad..f36fc34 100755
+--- a/scull/scull_load
++++ b/scull/scull_load
+@@ -14,7 +14,7 @@ fi
+ # invoke insmod with all arguments we got
+ # and use a pathname, as insmod doesn't look in . by default
+ echo "$0"
+-insmod /lib/modules/$(uname -r)/extra/$module.ko $* || exit 1
++insmod /lib/modules/$(uname -r)/$module.ko $* || exit 1
+ 
+ # retrieve major number
+ major=$(awk "\$2==\"$module\" {print \$1}" /proc/devices)
