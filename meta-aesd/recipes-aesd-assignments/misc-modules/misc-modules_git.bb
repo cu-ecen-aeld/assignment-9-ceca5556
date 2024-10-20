@@ -16,6 +16,8 @@ inherit module
 SRC_URI = "git://git@github.com/cu-ecen-aeld/assignment-7-ceca5556.git;protocol=ssh;branch=master \
            file://0001-makefile-only-builds-scull-and-misc-modules.patch \
            file://misc-modules-start-stop.sh \
+           file://0001-added-proc_ops-from-include-subdir-to-misc-modules-s.patch \
+           file://0002-changed-module-path-for-insmod-command.patch \
            "
 
 # Modify these as desired
@@ -24,15 +26,19 @@ SRCREV = "a2b5a4a5d45a30d047a77d0523037be4ad56f4ca"
 
 S = "${WORKDIR}/git"
 
+FILES:${PN} += "${bindir}/"
+FILES:${PN} += "${sysconfdir}/"
+#FILES:${PN} += "${base_libdir}/"
+
 MODULES_INSTALL_TARGET = "install"
 EXTRA_OEMAKE += "KERNELDIR=${STAGING_KERNEL_DIR}"
-#EXTRA_OEMAKE += " -C ${STAGING_KERNEL_DIR} M=${S}/misc-modules"
+EXTRA_OEMAKE += " -C ${STAGING_KERNEL_DIR} M=${S}/misc-modules"
 
-FILES:${PN} += "${sysconfdir}/init.d/misc-modules-stop.sh"
+#FILES:${PN} += "${sysconfdir}/init.d/misc-modules-start-stop.sh"
 
 inherit update-rc.d
 INITSCRIPT_PACKAGES = "${PN}"
-INITSCRIPT_NAME:${PN} = "misc-modules-stop.sh"
+INITSCRIPT_NAME:${PN} = "misc-modules-start-stop.sh"
 
 do_install () {
 	# TODO: Install your binaries/scripts here.
@@ -43,9 +49,16 @@ do_install () {
 	# https://docs.yoctoproject.org/ref-manual/variables.html?highlight=workdir#term-S
 	# See example at https://github.com/cu-ecen-aeld/ecen5013-yocto/blob/ecen5013-hello-world/meta-ecen5013/recipes-ecen5013/ecen5013-hello-world/ecen5013-hello-world_git.bb
 
+	install -d ${D}${bindir}/
+	#install -m 0755 ${S}/misc-modules/* ${D}${bindir}/
+	install -m 0755 ${S}/misc-modules/module_load ${D}${bindir}/
+	install -m 0755 ${S}/misc-modules/module_unload ${D}${bindir}/
 
+	# yocto uname -r is differne t than .bb file uname -r
+	install -d ${D}${base_libdir}/modules/aesd-mods/
+	install -m 0755 ${S}/misc-modules/*.ko ${D}${base_libdir}/modules/aesd-mods/
 
 	install -d ${D}${sysconfdir}/init.d
-	install -m 0755 misc-modules-start-stop.sh ${D}${sysconfdir}/init.d
+	install -m 0755 ${WORKDIR}/misc-modules-start-stop.sh ${D}${sysconfdir}/init.d
 
 }
