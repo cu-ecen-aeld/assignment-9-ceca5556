@@ -14,10 +14,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 inherit module
 
 SRC_URI = "git://git@github.com/cu-ecen-aeld/assignment-7-ceca5556.git;protocol=ssh;branch=master \
-           file://0001-makefile-only-builds-scull-and-misc-modules.patch \
            file://misc-modules-start-stop.sh \
-           file://0001-added-proc_ops-from-include-subdir-to-misc-modules-s.patch \
-           file://0002-changed-module-path-for-insmod-command.patch \
+           file://0001-assignment-7-makefile-only-builds-scull-and-misc-mod.patch \
+           file://0002-added-include-dependencies-to-misc-modules-subdirect.patch \
            "
 
 # Modify these as desired
@@ -30,9 +29,9 @@ FILES:${PN} += "${bindir}/"
 FILES:${PN} += "${sysconfdir}/"
 #FILES:${PN} += "${base_libdir}/"
 
-MODULES_INSTALL_TARGET = "install"
-EXTRA_OEMAKE += "KERNELDIR=${STAGING_KERNEL_DIR}"
-EXTRA_OEMAKE += " -C ${STAGING_KERNEL_DIR} M=${S}/misc-modules"
+#MODULES_INSTALL_TARGET = "install"
+#EXTRA_OEMAKE += "KERNELDIR=${STAGING_KERNEL_DIR}"
+EXTRA_OEMAKE:append = " -C ${STAGING_KERNEL_DIR} M=${S}/misc-modules"
 
 #FILES:${PN} += "${sysconfdir}/init.d/misc-modules-start-stop.sh"
 
@@ -40,7 +39,7 @@ inherit update-rc.d
 INITSCRIPT_PACKAGES = "${PN}"
 INITSCRIPT_NAME:${PN} = "misc-modules-start-stop.sh"
 
-do_install () {
+do_install:append () {
 	# TODO: Install your binaries/scripts here.
 	# Be sure to install the target directory with install -d first
 	# Yocto variables ${D} and ${S} are useful here, which you can read about at 
@@ -55,8 +54,8 @@ do_install () {
 	install -m 0755 ${S}/misc-modules/module_unload ${D}${bindir}/
 
 	# yocto uname -r is differne t than .bb file uname -r
-	install -d ${D}${base_libdir}/modules/aesd-mods/
-	install -m 0755 ${S}/misc-modules/*.ko ${D}${base_libdir}/modules/aesd-mods/
+	#install -d ${D}${base_libdir}/modules/aesd-mods/
+	#install -m 0755 ${S}/misc-modules/*.ko ${D}${base_libdir}/modules/aesd-mods/
 
 	install -d ${D}${sysconfdir}/init.d
 	install -m 0755 ${WORKDIR}/misc-modules-start-stop.sh ${D}${sysconfdir}/init.d
