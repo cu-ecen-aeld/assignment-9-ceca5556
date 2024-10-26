@@ -19,7 +19,7 @@ SRC_URI = "git://git@github.com/cu-ecen-aeld/assignments-3-and-later-ceca5556.gi
 
 # Modify these as desired
 PV = "1.0+git${SRCPV}"
-SRCREV = "06cf414f180dae80fb71c2ae506ab5a592fec473"
+SRCREV = "e88f67ddf523a45ea83213cfd61390cddb3e448f"
 
 S = "${WORKDIR}/git"
 
@@ -47,13 +47,9 @@ do_install:append () {
 	# See example at https://github.com/cu-ecen-aeld/ecen5013-yocto/blob/ecen5013-hello-world/meta-ecen5013/recipes-ecen5013/ecen5013-hello-world/ecen5013-hello-world_git.bb
 
 	install -d ${D}${bindir}/
-	#install -m 0755 ${S}/misc-modules/* ${D}${bindir}/
 	install -m 0755 ${S}/aesd-char-driver/aesdchar_load ${D}${bindir}/
 	install -m 0755 ${S}/aesd-char-driver/aesdchar_unload ${D}${bindir}/
-
-	# yocto uname -r is differne t than .bb file uname -r
-	#install -d ${D}${base_libdir}/modules/aesd-mods/
-	#install -m 0755 ${S}/misc-modules/*.ko ${D}${base_libdir}/modules/aesd-mods/
+	#install -m 0755 ${WORKDIR}/aesdchar-start-stop.sh ${D}${bindir}/
 
 	install -d ${D}${sysconfdir}/init.d
 	install -m 0755 ${WORKDIR}/aesdchar-start-stop.sh ${D}${sysconfdir}/init.d
