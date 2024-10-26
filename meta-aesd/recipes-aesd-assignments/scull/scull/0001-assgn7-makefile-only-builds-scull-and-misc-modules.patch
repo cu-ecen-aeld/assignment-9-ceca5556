@@ -1,14 +1,14 @@
-From 394114fd36bf75ba7878b6149992cb7c2b29b0d3 Mon Sep 17 00:00:00 2001
+From 57396e0573ed9d6407304b2148f7a83c0d77a8bc Mon Sep 17 00:00:00 2001
 From: ceca5556 <ceca5556@colorado.edu>
-Date: Wed, 16 Oct 2024 22:40:03 -0600
-Subject: [PATCH] makefile only builds scull and misc-modules
+Date: Fri, 25 Oct 2024 22:45:00 -0600
+Subject: [PATCH] assgn7 makefile only builds scull and misc modules
 
 ---
  Makefile | 5 +----
  1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 7b08c49..c4f2e2e 100644
+index 7b08c49..706debd 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -1,8 +1,5 @@
@@ -17,7 +17,7 @@ index 7b08c49..c4f2e2e 100644
 -           skull scull scullc scullp lddbus sculld scullv shortprint simple tty \
 -	   pci usb\
 -	   sbull snull short
-+SUBDIRS =  misc-modules scull
++SUBDIRS =  scull misc-modules
  
  all: subdirs
  

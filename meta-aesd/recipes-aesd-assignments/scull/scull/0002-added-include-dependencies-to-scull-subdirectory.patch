@@ -1,13 +1,12 @@
-From 99287af707079eee878a124996eb391007fd4c5c Mon Sep 17 00:00:00 2001
+From f668b4a190cb277a8b47994f920ee39312a2ca61 Mon Sep 17 00:00:00 2001
 From: ceca5556 <ceca5556@colorado.edu>
-Date: Sat, 19 Oct 2024 15:25:33 -0600
-Subject: [PATCH] added include files to scull directory directly
+Date: Fri, 25 Oct 2024 22:46:03 -0600
+Subject: [PATCH] added include dependencies to scull subdirectory
 
 ---
  scull/access_ok_version.h | 15 +++++++++++++++
  scull/proc_ops_version.h  | 34 ++++++++++++++++++++++++++++++++++
- scull/scull_load          |  3 +--
- 3 files changed, 50 insertions(+), 2 deletions(-)
+ 2 files changed, 49 insertions(+)
  create mode 100644 scull/access_ok_version.h
  create mode 100644 scull/proc_ops_version.h
 
@@ -72,17 +71,3 @@ index 0000000..c700111
 +#endif
 +
 +#endif
-diff --git a/scull/scull_load b/scull/scull_load
-index 71fdf7f..424e9ad 100755
---- a/scull/scull_load
-+++ b/scull/scull_load
-@@ -14,8 +14,7 @@ fi
- # invoke insmod with all arguments we got
- # and use a pathname, as insmod doesn't look in . by default
- echo "$0"
--# insmod /lib/modules/$(uname -r)/extra/$module.ko $* || exit 1
--modprobe $module.ko $* || exit 1
-+insmod /lib/modules/$(uname -r)/extra/$module.ko $* || exit 1
- 
- # retrieve major number
- major=$(awk "\$2==\"$module\" {print \$1}" /proc/devices)
