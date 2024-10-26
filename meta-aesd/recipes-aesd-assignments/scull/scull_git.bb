@@ -14,12 +14,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f098732a73b5f6f3430472f5b094ffdb"
 inherit module
 
 SRC_URI = "git://git@github.com/cu-ecen-aeld/assignment-7-ceca5556.git;protocol=ssh;branch=master \
-           file://0001-makefile-only-builds-scull-and-misc-modules.patch \
            file://scull-start-stop.sh \
-           file://0001-attempting-to-use-modprobe-isntead-of-insmod.patch \
-           file://0002-added-include-files-to-scull-directory-directly.patch \
-           file://0001-updated-path-for-module-location-for-insmod-command.patch \
-           file://0001-module-path-update-for-insmod-command.patch \
+           file://0001-assgn7-makefile-only-builds-scull-and-misc-modules.patch \
+           file://0002-added-include-dependencies-to-scull-subdirectory.patch \
            "
 
 # Modify these as desired
@@ -34,24 +31,17 @@ FILES:${PN} += "${bindir}/"
 FILES:${PN} += "${sysconfdir}/"
 #FILES:${PN} += "${base_libdir}/"
 
-MODULES_INSTALL_TARGET = "install"
-EXTRA_OEMAKE += "KERNELDIR=${STAGING_KERNEL_DIR}"
-EXTRA_OEMAKE += " -C ${STAGING_KERNEL_DIR} M=${S}/scull"
-
+#RPROVIDES:${PN} += "kernel-module-scull"
+#MODULES_INSTALL_TARGET = "install"
+#EXTRA_OEMAKE += "KERNELDIR=${STAGING_KERNEL_DIR}"
+EXTRA_OEMAKE:append = " -C ${STAGING_KERNEL_DIR} M=${S}/scull"
 
 inherit update-rc.d
 INITSCRIPT_PACKAGES = "${PN}"
 INITSCRIPT_NAME:${PN} = "scull-start-stop.sh"
 
-#do_configure () {
-#	:
-#}
 
-#do_compile () {
-#	oe_runmake
-#}
-
-do_install () {
+do_install:append () {
 	# TODO: Install your binaries/scripts here.
 	# Be sure to install the target directory with install -d first
 	# Yocto variables ${D} and ${S} are useful here, which you can read about at 
@@ -65,8 +55,8 @@ do_install () {
 	install -m 0755 ${S}/scull/scull_load ${D}${bindir}/
 	install -m 0755 ${S}/scull/scull_unload ${D}${bindir}/
 
-	install -d ${D}${base_libdir}/modules/aesd-mods/
-	install -m 0755 ${S}/scull/scull.ko ${D}${base_libdir}/modules/aesd-mods/
+	#install -d ${D}${base_libdir}/modules/aesd-mods/
+	#install -m 0755 ${S}/scull/scull.ko ${D}${base_libdir}/modules/aesd-mods/
 
 	install -d ${D}${sysconfdir}/init.d
 	install -m 0755 ${WORKDIR}/scull-start-stop.sh ${D}${sysconfdir}/init.d
