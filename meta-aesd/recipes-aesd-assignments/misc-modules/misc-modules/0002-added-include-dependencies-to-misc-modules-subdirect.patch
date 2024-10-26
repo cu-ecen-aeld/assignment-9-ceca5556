@@ -1,7 +1,7 @@
-From 6c572e7e1c1b2395995eb0fbcad36195e392566d Mon Sep 17 00:00:00 2001
+From 6d0c0bcb4e28d120a838a214f291ab122c0df20e Mon Sep 17 00:00:00 2001
 From: ceca5556 <ceca5556@colorado.edu>
-Date: Sat, 19 Oct 2024 16:50:45 -0600
-Subject: [PATCH] added proc_ops from include subdir to misc-modules subdir
+Date: Fri, 25 Oct 2024 23:04:45 -0600
+Subject: [PATCH] added include dependencies to misc-modules subdirectory
 
 ---
  misc-modules/proc_ops_version.h | 34 +++++++++++++++++++++++++++++++++
