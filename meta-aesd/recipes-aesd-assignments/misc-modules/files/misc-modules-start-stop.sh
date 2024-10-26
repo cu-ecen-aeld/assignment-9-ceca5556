@@ -7,10 +7,6 @@ case "$1" in
     echo "loading misc-module"
     # scull_load
     module_load faulty
-
-    # yocto qemu instance uname -r is differne t than .bb file uname -r
-    cp /lib/modules/aesd-mods/hello.ko /lib/modules/$(uname -r) # modprobe -S not working? workaround ->copy hello to modprobe directory
-    depmod -A
     modprobe hello
     ;;
   stop)
