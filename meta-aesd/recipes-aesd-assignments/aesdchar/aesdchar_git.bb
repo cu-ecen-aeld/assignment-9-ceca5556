@@ -13,13 +13,13 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit module
 
-SRC_URI = "git://git@github.com/cu-ecen-aeld/assignments-3-and-later-ceca5556.git;protocol=ssh;branch=assignment-8 \
+SRC_URI = "git://git@github.com/cu-ecen-aeld/assignments-3-and-later-ceca5556.git;protocol=ssh;branch=assignment-9 \
            file://aesdchar-start-stop.sh \
            "
 
 # Modify these as desired
 PV = "1.0+git${SRCPV}"
-SRCREV = "eee4f216f9841f0d43409ca6615fdf1ef3ab3b11"
+SRCREV = "66baeeacd10aac7054fa7dd82fdf3d5fda3459b3"
 
 S = "${WORKDIR}/git"
 
